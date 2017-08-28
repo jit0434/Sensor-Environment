@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.papa.sensor_environment.Main2Activity">
+
+    <TextView
+        android:id="@+id/txtvgraphs"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="GRAPHS"
+        tools:layout_editor_absoluteX="165dp"
+        tools:layout_editor_absoluteY="46dp" />
+    <Button
+        android:id="@+id/back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Back"
+        tools:layout_editor_absoluteX="40dp"
+        tools:layout_editor_absoluteY="26dp"/>
+
+
+
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        tools:layout_editor_absoluteY="80dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <com.jjoe64.graphview.GraphView
+                android:id="@+id/graphLI"
+                android:layout_width="match_parent"
+                android:layout_height="200dip" />
+
+            <com.jjoe64.graphview.GraphView
+                android:id="@+id/graphAccel"
+                android:layout_width="match_parent"
+                android:layout_height="200dip"
+                android:layout_below="@id/graphLI" />
+
+            <com.jjoe64.graphview.GraphView
+                android:id="@+id/graphGyro"
+                android:layout_width="match_parent"
+                android:layout_height="200dip"
+                android:layout_below="@id/graphAccel" />
+
+            <com.jjoe64.graphview.GraphView
+                android:id="@+id/graphMag"
+                android:layout_width="match_parent"
+                android:layout_height="200dip"
+                android:layout_below="@id/graphGyro" />
+        </LinearLayout>
+
+    </ScrollView>
+
+
+
+</android.support.constraint.ConstraintLayout>
