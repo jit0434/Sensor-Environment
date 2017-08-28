@@ -100,7 +100,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
         }
         else if(event.sensor.getType() == Sensor.TYPE_LIGHT) {
-            LI.setText("Temperature: " + event.values[0]);
+            LI.setText("LIGHT INT: " + event.values[0]);
 
         } else if(event.sensor.getType() == Sensor.TYPE_MAGNETIC_FIELD) {
             double mx,my,mz, magne;
