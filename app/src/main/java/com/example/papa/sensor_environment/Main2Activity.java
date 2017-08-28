@@ -16,6 +16,19 @@ import android.util.Log;
 import android.graphics.Color;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.view.*;
+import android.content.Intent;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.content.Context;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
+import android.util.Log;
+import android.widget.Button;
+import android.widget.TextView;
+import android.view.*;
 
 
 public class Main2Activity extends AppCompatActivity implements SensorEventListener {
@@ -24,30 +37,38 @@ public class Main2Activity extends AppCompatActivity implements SensorEventListe
     private Sensor mSensor;
     private GraphView mGraphGyro;
     private GraphView mGraphAccel;
-    private GraphView mGraphTemp;
+    private GraphView mGraphLI;
     private GraphView mGraphMag;
     private LineGraphSeries<DataPoint> mSeriesGyro;
     private LineGraphSeries<DataPoint> mSeriesAccel;
     private LineGraphSeries<DataPoint> mSeriesMag;
-    private LineGraphSeries<DataPoint> mSeriesTemp;
+    private LineGraphSeries<DataPoint> mSeriesLI;
     private double graphLastGyroXValue = 5d;
     private double graphLastAccelXValue = 5d;
-    private double graphLastTempXValue = 5d;
+    private double graphLastLIXValue = 5d;
     private double graphLastMagXValue = 5d;
     private Button back;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main2);
 
         //TODO make this onCreate method not suck and subclass graphs and series
         mGraphGyro = initGraph(R.id.graphGyro, "Sensor.TYPE_GYROSCOPE");
         mGraphAccel = initGraph(R.id.graphAccel, "Sensor.TYPE_ACCELEROMETER");
-        mGraphTemp = initGraph(R.id.temp, "Sensor.TYPE_AMBIENT_TEMPERATURE");
+        mGraphLI = initGraph(R.id.graphLI, "Sensor.TYPE_LIGHT");
         mGraphMag = initGraph(R.id.graphMag, "Sensor.TYPE_MAGNETIC_FIELD");
         back = (Button)findViewById(R.id.back);
-        back.setOnClickListener(new View.OnClickListener());
+        //back.setOnClickListener(new View.OnClickListener());
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(Main2Activity.this,MainActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
 
         //GYRO
         mSeriesGyro = initSeries(Color.BLUE, "Gyro");
@@ -60,10 +81,10 @@ public class Main2Activity extends AppCompatActivity implements SensorEventListe
         startAccel();
 
 
-        // Temp
-        mSeriesTemp = initSeries(Color.RED, "Temp");
-        mGraphTemp.addSeries(mSeriesTemp);
-        startTemp();
+        // LI
+        mSeriesLI = initSeries(Color.RED, "Light Int");
+        mGraphLI.addSeries(mSeriesLI);
+        startLI();
 
         // Magnatic
         mSeriesMag = initSeries(Color.BLUE, "Magne");
@@ -106,9 +127,9 @@ public class Main2Activity extends AppCompatActivity implements SensorEventListe
         mSensorManager.registerListener(this, mSensor, SensorManager.SENSOR_DELAY_NORMAL);
     }
 
-    public void startTemp(){
+    public void startLI(){
         mSensorManager = (SensorManager) this.getSystemService(Context.SENSOR_SERVICE);
-        mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_AMBIENT_TEMPERATURE);
+        mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
         mSensorManager.registerListener(this, mSensor, SensorManager.SENSOR_DELAY_NORMAL);
     }
 
@@ -139,9 +160,9 @@ public class Main2Activity extends AppCompatActivity implements SensorEventListe
             accel = Math.sqrt(ax * ax + ay * ay + az * az);
             mSeriesAccel.appendData(new DataPoint(graphLastAccelXValue, accel), true, 33);
 
-        } else if(event.sensor.getType() == Sensor.TYPE_AMBIENT_TEMPERATURE) {
-            graphLastTempXValue += 0.15d;
-            mSeriesTemp.appendData(new DataPoint(graphLastTempXValue, event.values[0]), true, 33);
+        } else if(event.sensor.getType() == Sensor.TYPE_LIGHT) {
+            graphLastLIXValue += 0.15d;
+            mSeriesLI.appendData(new DataPoint(graphLastLIXValue, event.values[0]), true, 33);
         } else if(event.sensor.getType() == Sensor.TYPE_MAGNETIC_FIELD) {
             graphLastMagXValue += 0.15d;
             double mx,my,mz, magne;
@@ -163,3 +184,4 @@ public class Main2Activity extends AppCompatActivity implements SensorEventListe
 
 
 }
+

@@ -1,5 +1,7 @@
 package com.example.papa.sensor_environment;
 
+import android.content.Intent;
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.content.Context;
@@ -10,6 +12,12 @@ import android.hardware.SensorManager;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
+import android.view.*;
+
+import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.LegendRenderer;
+import com.jjoe64.graphview.series.DataPoint;
+import com.jjoe64.graphview.series.LineGraphSeries;
 
 
 public class MainActivity extends AppCompatActivity implements SensorEventListener {
@@ -25,22 +33,30 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        LI = (TextView)findViewById(R.id.temp);
+        LI = (TextView)findViewById(R.id.light);
         Accel = (TextView)findViewById(R.id.accel);
         Gyro = (TextView)findViewById(R.id.gyro);
         Magno = (TextView)findViewById(R.id.magne);
         Btn = (Button)findViewById(R.id.button);
+        Btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(MainActivity.this,Main2Activity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
 
-        startTemp();
+        startLI();
         startAccel();
         startGyro();
         startMag();
     }
 
 
-    public void startTemp(){
+    public void startLI(){
         mSensorManager = (SensorManager) this.getSystemService(Context.SENSOR_SERVICE);
-        mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_AMBIENT_TEMPERATURE);
+        mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
         mSensorManager.registerListener(this, mSensor, SensorManager.SENSOR_DELAY_NORMAL);}
 
     public void startGyro(){
@@ -83,7 +99,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             Accel.setText("Acceleration: " + accel);
 
         }
-        else if(event.sensor.getType() == Sensor.TYPE_AMBIENT_TEMPERATURE) {
+        else if(event.sensor.getType() == Sensor.TYPE_LIGHT) {
             LI.setText("Temperature: " + event.values[0]);
 
         } else if(event.sensor.getType() == Sensor.TYPE_MAGNETIC_FIELD) {
@@ -104,3 +120,4 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
 
 }
+
