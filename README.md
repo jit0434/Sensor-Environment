@@ -1,7 +1,5 @@
 # Sensor-Environmen
 
-Download Android application https://drive.google.com/file/d/0B0UX_WJyFVgZQ1lCbkFpcm1iTzA/view?usp=drivesdk
-
 ## Android application to show sensor data of 
 ### Accelerometer Sensor.TYPE_ACCELEROMETER  (Total acceleration sqrt(x^2+y^2+z^2) 
 ### Gyroscope Sensor.TYPE_GYROSCOP
